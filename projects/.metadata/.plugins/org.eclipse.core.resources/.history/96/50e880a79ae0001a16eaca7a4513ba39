@@ -67,57 +67,22 @@ public class UserDAO {
 		return -1; // 데이터베이스 오류
 	}
 	
-	public String getUserEmail(String userID)
-	{
-		String SQL = "SELECT userEmail FROM USER WHERE userID = ?";
-		try {
-			pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, userID);
-			rs = pstmt.executeQuery();
-			if(rs.next())
-			{
-				return rs.getString(1);
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return null; // 데이터베이스 오류
-	}
-	
-	public boolean getUserEmailChecked(String userID)
+	public int getUserEmailChecked(String userID)
 	{
 		String SQL = "SELECT userEmailChecked FROM USER WHERE userID = ?";
 		try {
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, userID);
-			rs = pstmt.executeQuery();
-			if(rs.next())
-			{
-				return rs.getBoolean(1);
-			}
+			pstmt.setString(1, user.getUserID());
+			pstmt.setString(2, user.getUserPassword());
+			pstmt.setString(3, user.getUserName());
+			pstmt.setString(4, user.getUserGender());
+			pstmt.setString(5, user.getUserEmail());
+			return pstmt.executeUpdate();
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return false; // 데이터베이스 오류
-	}
-	
-	public boolean setUserEmailChecked(String userID)
-	{
-		String SQL = "UPDATE USER SET userEmailChecked = true WHERE userID = ?";
-		try {
-			pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, userID);
-			pstmt.executeUpdate();
-			return true;
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return false; // 데이터베이스 오류
+		return -1; // 데이터베이스 오류
 	}
 }

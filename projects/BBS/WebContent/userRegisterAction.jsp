@@ -1,0 +1,48 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="user.User" %>
+<%@ page import="user.UserDAO" %>
+<%@ page import="bbs.SHA256" %>
+<%@ page import="java.io.PrintWriter" %>
+
+<%
+	request.setCharacterEncoding("UTF-8");
+	String userID = null;
+	String userPassword = null;
+	String userName = null;
+	String userGender = null;
+	String userEmail = null;
+	if(request.getParameter("userID") != null)
+	{
+		userID = request.getParameter("userID");
+	}
+	if(request.getParameter("userPassword") != null)
+	{
+		userID = request.getParameter("userPassword");
+	}
+	if(request.getParameter("userName") != null)
+	{
+		userID = request.getParameter("userName");
+	}
+	if(request.getParameter("userGender") != null)
+	{
+		userID = request.getParameter("userGender");
+	}
+	if(request.getParameter("userEmail") != null)
+	{
+		userID = request.getParameter("userEmail");
+	}
+	if(userID == null || userPassword == null || userName == null || userGender == null || userEmail == null)
+	{
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('입력이 안된 사항이 있습니다.');");
+		script.println("history.back();");
+		script.println("</script>");
+		script.close();
+		return;
+	}
+	UserDAO userDAO = new UserDAO();
+	int result = userDAO.join(new User(userID, userPassword, userName, userGender, userEmail, SHA256.getSHA256(userEmail),false));
+
+%>

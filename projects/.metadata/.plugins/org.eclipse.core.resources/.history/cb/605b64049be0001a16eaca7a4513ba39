@@ -67,25 +67,6 @@ public class UserDAO {
 		return -1; // 데이터베이스 오류
 	}
 	
-	public String getUserEmail(String userID)
-	{
-		String SQL = "SELECT userEmail FROM USER WHERE userID = ?";
-		try {
-			pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, userID);
-			rs = pstmt.executeQuery();
-			if(rs.next())
-			{
-				return rs.getString(1);
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return null; // 데이터베이스 오류
-	}
-	
 	public boolean getUserEmailChecked(String userID)
 	{
 		String SQL = "SELECT userEmailChecked FROM USER WHERE userID = ?";
@@ -111,8 +92,11 @@ public class UserDAO {
 		try {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, userID);
-			pstmt.executeUpdate();
-			return true;
+			rs = pstmt.executeQuery();
+			if(rs.next())
+			{
+				return rs.getBoolean(1);
+			}
 		}
 		catch (Exception e)
 		{
